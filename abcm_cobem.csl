@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="en-US">
+  <info>
+    <title>Giulia – References (custom)</title>
+    <id>http://www.zotero.org/styles/giulia-refs-custom</id>
+    <link href="http://www.zotero.org/styles/giulia-refs-custom" rel="self"/>
+    <author>
+      <name>ChatGPT (custom for Giulia)</name>
+    </author>
+    <category citation-format="author-date"/>
+    <updated>2025-08-28T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+  </info>
+
+  <!-- LOCALE (month names; labels like Vol., pp., Accessed) -->
+  <locale xml:lang="en">
+    <terms>
+      <term name="volume" form="short">Vol.</term>
+      <term name="page" form="short">pp.</term>
+      <term name="and">and</term>
+      <term name="accessed">Accessed</term>
+    </terms>
+  </locale>
+
+  <!-- AUTHORS -->
+  <macro name="authors">
+    <names variable="author" delimiter=", " and="text">
+      <name initialize-with="." name-as-sort-order="all" sort-separator=", " delimiter=", " />
+    </names>
+  </macro>
+
+  <!-- YEAR (no parentheses) -->
+  <macro name="year">
+    <date variable="issued" form="text" date-parts="year"/>
+  </macro>
+
+  <!-- QUOTED TITLE (articles, chapters, reports, webpages, conference papers) -->
+  <macro name="quoted-title">
+    <text variable="title" quotes="true"/>
+  </macro>
+
+  <!-- BOOK/THESIS TITLE (italic) -->
+  <macro name="italic-title">
+    <text variable="title" font-style="italic"/>
+  </macro>
+
+  <!-- PLACE + PUBLISHER -->
+  <macro name="place-publisher">
+    <group delimiter=", ">
+      <text variable="publisher-place"/>
+      <text variable="publisher"/>
+    </group>
+  </macro>
+
+  <!-- VOLUME + PAGES  ->  Vol. X, pp. Y–Z. -->
+  <macro name="vol-pages">
+    <group delimiter=", ">
+      <group>
+        <label variable="volume" form="short" suffix=" "/>
+        <text variable="volume"/>
+      </group>
+      <group>
+        <label variable="page" form="short" suffix=" "/>
+        <text variable="page"/>
+      </group>
+    </group>
+  </macro>
+
+  <!-- URL + ACCESSED -->
+  <macro name="url-access">
+    <group delimiter=". ">
+      <text variable="URL"/>
+      <group>
+        <text term="accessed" text-case="capitalize-first" suffix=" "/>
+        <date variable="accessed">
+          <date-part name="day" form="numeric-leading-zeros"/>
+          <text value=" "/>
+          <date-part name="month" form="long"/>
+          <text value=" "/>
+          <date-part name="year"/>
+        </date>
+      </group>
+    </group>
+  </macro>
+
+  <!-- CONTAINER (journal / booktitle) -->
+  <macro name="container">
+    <group delimiter=", ">
+      <text variable="container-title" font-style="italic"/>
+      <text macro="vol-pages"/>
+    </group>
+  </macro>
+
+  <!-- EDITORS (for chapters/proceedings) -->
+  <macro name="editors">
+    <names variable="editor" prefix="In: " delimiter=", " and="text">
+      <name initialize-with="." delimiter=", " />
+    </names>
+  </macro>
+
+  <!-- PATENT DETAILS -->
+  <macro name="patent-extra">
+    <group delimiter=". ">
+      <group delimiter=", ">
+        <text value="Patent"/>
+        <text variable="authority"/>
+        <group>
+          <text value="Registry number:"/>
+          <text variable="number" prefix=" "/>
+        </group>
+      </group>
+      <group delimiter=", ">
+        <group>
+          <text value="Application date:"/>
+          <date variable="submitted" prefix=" ">
+            <date-part name="month" form="long"/>
+            <text value=" "/>
+            <date-part name="day"/>
+            <text value=", "/>
+            <date-part name="year"/>
+          </date>
+        </group>
+        <group>
+          <text value="Grant date:"/>
+          <date variable="issued" prefix=" ">
+            <date-part name="month" form="long"/>
+            <text value=" "/>
+            <date-part name="day"/>
+            <text value=", "/>
+            <date-part name="year"/>
+          </date>
+        </group>
+      </group>
+    </group>
+  </macro>
+
+  <!-- LAYOUTS PER TYPE -->
+  <citation collapse="year">
+    <layout prefix="(" suffix=")" delimiter="; ">
+      <group delimiter=", ">
+        <text macro="authors"/>
+        <text macro="year"/>
+      </group>
+    </layout>
+  </citation>
+
+  <bibliography et-al-min="9" et-al-use-first="8" line-spacing="1" entry-spacing="0" hanging-indent="true">
+    <sort>
+      <key macro="authors"/>
+      <key macro="year"/>
+      <key variable="title"/>
+    </sort>
+
+    <!-- ARTICLE -->
+    <layout suffix=".">
+      <choose>
+        <if type="article-journal article-magazine article-newspaper" match="any">
+          <group delimiter=". ">
+            <group delimiter=", ">
+              <text macro="authors"/>
+              <text macro="year"/>
+            </group>
+            <text macro="quoted-title"/>
+            <text macro="container"/>
+          </group>
+        </if>
+
+        <!-- BOOK -->
+        <else-if type="book">
+          <group delimiter=". ">
+            <group delimiter=", ">
+              <text macro="authors"/>
+              <text macro="year"/>
+            </group>
+            <text macro="italic-title"/>
+            <text macro="place-publisher"/>
+          </group>
+        </else-if>
+
+        <!-- CHAPTER IN BOOK -->
+        <else-if type="chapter">
+          <group delimiter=". ">
+            <group delimiter=", ">
+              <text macro="authors"/>
+              <text macro="year"/>
+            </group>
+            <text macro="quoted-title"/>
+            <group delimiter=". ">
+              <group delimiter=", ">
+                <text macro="editors"/>
+                <text variable="container-title" font-style="italic"/>
+              </group>
+              <text macro="place-publisher"/>
+              <group>
+                <label variable="page" form="short" suffix=" "/>
+                <text variable="page"/>
+              </group>
+            </group>
+          </group>
+        </else-if>
+
+        <!-- PAPER IN PROCEEDINGS -->
+        <else-if type="paper-conference">
+          <group delimiter=". ">
+            <group delimiter=", ">
+              <text macro="authors"/>
+              <text macro="year"/>
+            </group>
+            <text macro="quoted-title"/>
+            <group delimiter=", ">
+              <text variable="container-title" font-style="italic"/>
+              <text macro="vol-pages"/>
+              <text macro="place-publisher"/>
+            </group>
+          </group>
+        </else-if>
+
+        <!-- REPORT / THESIS -->
+        <else-if type="report thesis">
+          <group delimiter=". ">
+            <group delimiter=", ">
+              <text macro="authors"/>
+              <text macro="year"/>
+            </group>
+            <text macro="quoted-title"/>
+            <text macro="place-publisher"/>
+            <text macro="url-access"/>
+          </group>
+        </else-if>
+
+        <!-- WEBPAGE -->
+        <else-if type="webpage">
+          <group delimiter=". ">
+            <group delimiter=", ">
+              <text macro="authors"/>
+              <text macro="year"/>
+            </group>
+            <text macro="quoted-title"/>
+            <text macro="url-access"/>
+          </group>
+        </else-if>
+
+        <!-- PATENT -->
+        <else-if type="patent">
+          <group delimiter=". ">
+            <group delimiter=", ">
+              <text macro="authors"/>
+              <text macro="year"/>
+            </group>
+            <text macro="quoted-title"/>
+            <text macro="patent-extra"/>
+          </group>
+        </else-if>
+
+        <!-- FALLBACK -->
+        <else>
+          <group delimiter=". ">
+            <group delimiter=", ">
+              <text macro="authors"/>
+              <text macro="year"/>
+            </group>
+            <text macro="quoted-title"/>
+            <text variable="container-title" font-style="italic"/>
+            <text macro="url-access"/>
+          </group>
+        </else>
+      </choose>
+    </layout>
+  </bibliography>
+</style>
