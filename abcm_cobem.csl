@@ -1,50 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="en-US">
   <info>
-    <title>Giulia – References (custom)</title>
-    <id>http://www.zotero.org/styles/giulia-refs-custom</id>
-    <link href="http://www.zotero.org/styles/giulia-refs-custom" rel="self"/>
+    <title>ABCM/COBEM – Giulia (custom)</title>
+    <id>https://example.org/styles/abcm_cobem_giulia</id>
+    <link href="https://example.org/styles/abcm_cobem_giulia" rel="self"/>
     <author>
-      <name>ChatGPT (custom for Giulia)</name>
+      <name>Custom (Giulia)</name>
     </author>
     <category citation-format="author-date"/>
-    <updated>2025-08-28T00:00:00+00:00</updated>
-    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+    <updated>2025-08-28T00:00:00Z</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/"/>
   </info>
 
-  <!-- LOCALE (month names; labels like Vol., pp., Accessed) -->
+  <!-- Termos/labels -->
   <locale xml:lang="en">
     <terms>
+      <term name="and">and</term>
       <term name="volume" form="short">Vol.</term>
       <term name="page" form="short">pp.</term>
-      <term name="and">and</term>
       <term name="accessed">Accessed</term>
     </terms>
   </locale>
 
-  <!-- AUTHORS -->
+  <!-- Macros -->
   <macro name="authors">
-    <names variable="author" delimiter=", " and="text">
-      <name initialize-with="." name-as-sort-order="all" sort-separator=", " delimiter=", " />
+    <names variable="author" and="text" delimiter=", ">
+      <name name-as-sort-order="all" sort-separator=", " initialize-with="." delimiter=", "/>
     </names>
   </macro>
 
-  <!-- YEAR (no parentheses) -->
   <macro name="year">
-    <date variable="issued" form="text" date-parts="year"/>
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
   </macro>
 
-  <!-- QUOTED TITLE (articles, chapters, reports, webpages, conference papers) -->
   <macro name="quoted-title">
     <text variable="title" quotes="true"/>
   </macro>
 
-  <!-- BOOK/THESIS TITLE (italic) -->
   <macro name="italic-title">
     <text variable="title" font-style="italic"/>
   </macro>
 
-  <!-- PLACE + PUBLISHER -->
   <macro name="place-publisher">
     <group delimiter=", ">
       <text variable="publisher-place"/>
@@ -52,7 +50,6 @@
     </group>
   </macro>
 
-  <!-- VOLUME + PAGES  ->  Vol. X, pp. Y–Z. -->
   <macro name="vol-pages">
     <group delimiter=", ">
       <group>
@@ -66,7 +63,19 @@
     </group>
   </macro>
 
-  <!-- URL + ACCESSED -->
+  <macro name="container">
+    <group delimiter=", ">
+      <text variable="container-title" font-style="italic"/>
+      <text macro="vol-pages"/>
+    </group>
+  </macro>
+
+  <macro name="editors">
+    <names variable="editor" prefix="In: " and="text" delimiter=", ">
+      <name initialize-with="." delimiter=", "/>
+    </names>
+  </macro>
+
   <macro name="url-access">
     <group delimiter=". ">
       <text variable="URL"/>
@@ -83,22 +92,6 @@
     </group>
   </macro>
 
-  <!-- CONTAINER (journal / booktitle) -->
-  <macro name="container">
-    <group delimiter=", ">
-      <text variable="container-title" font-style="italic"/>
-      <text macro="vol-pages"/>
-    </group>
-  </macro>
-
-  <!-- EDITORS (for chapters/proceedings) -->
-  <macro name="editors">
-    <names variable="editor" prefix="In: " delimiter=", " and="text">
-      <name initialize-with="." delimiter=", " />
-    </names>
-  </macro>
-
-  <!-- PATENT DETAILS -->
   <macro name="patent-extra">
     <group delimiter=". ">
       <group delimiter=", ">
@@ -134,7 +127,7 @@
     </group>
   </macro>
 
-  <!-- LAYOUTS PER TYPE -->
+  <!-- Citações no texto -->
   <citation collapse="year">
     <layout prefix="(" suffix=")" delimiter="; ">
       <group delimiter=", ">
@@ -144,16 +137,16 @@
     </layout>
   </citation>
 
-  <bibliography et-al-min="9" et-al-use-first="8" line-spacing="1" entry-spacing="0" hanging-indent="true">
+  <!-- Bibliografia -->
+  <bibliography hanging-indent="true" line-spacing="1" entry-spacing="0" et-al-min="9" et-al-use-first="8">
     <sort>
       <key macro="authors"/>
       <key macro="year"/>
       <key variable="title"/>
     </sort>
-
-    <!-- ARTICLE -->
     <layout suffix=".">
       <choose>
+        <!-- Artigo -->
         <if type="article-journal article-magazine article-newspaper" match="any">
           <group delimiter=". ">
             <group delimiter=", ">
@@ -165,7 +158,7 @@
           </group>
         </if>
 
-        <!-- BOOK -->
+        <!-- Livro -->
         <else-if type="book">
           <group delimiter=". ">
             <group delimiter=", ">
@@ -177,7 +170,7 @@
           </group>
         </else-if>
 
-        <!-- CHAPTER IN BOOK -->
+        <!-- Capítulo -->
         <else-if type="chapter">
           <group delimiter=". ">
             <group delimiter=", ">
@@ -199,7 +192,7 @@
           </group>
         </else-if>
 
-        <!-- PAPER IN PROCEEDINGS -->
+        <!-- Conferência -->
         <else-if type="paper-conference">
           <group delimiter=". ">
             <group delimiter=", ">
@@ -215,7 +208,7 @@
           </group>
         </else-if>
 
-        <!-- REPORT / THESIS -->
+        <!-- Relatório/Tese -->
         <else-if type="report thesis">
           <group delimiter=". ">
             <group delimiter=", ">
@@ -228,7 +221,7 @@
           </group>
         </else-if>
 
-        <!-- WEBPAGE -->
+        <!-- Página web -->
         <else-if type="webpage">
           <group delimiter=". ">
             <group delimiter=", ">
@@ -240,7 +233,7 @@
           </group>
         </else-if>
 
-        <!-- PATENT -->
+        <!-- Patente -->
         <else-if type="patent">
           <group delimiter=". ">
             <group delimiter=", ">
@@ -252,7 +245,7 @@
           </group>
         </else-if>
 
-        <!-- FALLBACK -->
+        <!-- Genérico -->
         <else>
           <group delimiter=". ">
             <group delimiter=", ">
