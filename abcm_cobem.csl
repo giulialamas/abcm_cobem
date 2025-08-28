@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="en-US">
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" demote-non-dropping-particle="never" default-locale="en-US">
   <info>
-    <title>ABCM/COBEM – Giulia (custom)</title>
-    <id>https://example.org/styles/abcm_cobem_giulia</id>
-    <link href="https://example.org/styles/abcm_cobem_giulia" rel="self"/>
+    <title>ABCM COBEM – Giulia (custom)</title>
+    <title-short>COBEM</title-short>
+    <id>http://www.zotero.org/styles/abcm-cobem-giulia</id>
+    <link href="http://www.zotero.org/styles/abcm-cobem-giulia" rel="self"/>
     <author>
-      <name>Custom (Giulia)</name>
+      <name>Giulia Lamas</name>
     </author>
     <category citation-format="author-date"/>
+    <category field="engineering"/>
     <updated>2025-08-28T00:00:00Z</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/"/>
   </info>
 
-  <!-- Termos/labels -->
   <locale xml:lang="en">
     <terms>
       <term name="and">and</term>
       <term name="volume" form="short">Vol.</term>
       <term name="page" form="short">pp.</term>
+      <term name="edition">ed.</term>
       <term name="accessed">Accessed</term>
     </terms>
   </locale>
 
-  <!-- Macros -->
+  <!-- ===== Macros ===== -->
   <macro name="authors">
     <names variable="author" and="text" delimiter=", ">
       <name name-as-sort-order="all" sort-separator=", " initialize-with="." delimiter=", "/>
@@ -76,6 +78,13 @@
     </names>
   </macro>
 
+  <macro name="edition">
+    <group delimiter=" ">
+      <text variable="edition"/>
+      <text term="edition"/>
+    </group>
+  </macro>
+
   <macro name="url-access">
     <group delimiter=". ">
       <text variable="URL"/>
@@ -127,7 +136,7 @@
     </group>
   </macro>
 
-  <!-- Citações no texto -->
+  <!-- ===== Citação no texto ===== -->
   <citation collapse="year">
     <layout prefix="(" suffix=")" delimiter="; ">
       <group delimiter=", ">
@@ -137,7 +146,7 @@
     </layout>
   </citation>
 
-  <!-- Bibliografia -->
+  <!-- ===== Bibliografia ===== -->
   <bibliography hanging-indent="true" line-spacing="1" entry-spacing="0" et-al-min="9" et-al-use-first="8">
     <sort>
       <key macro="authors"/>
@@ -166,7 +175,10 @@
               <text macro="year"/>
             </group>
             <text macro="italic-title"/>
-            <text macro="place-publisher"/>
+            <group delimiter=", ">
+              <text macro="edition"/>
+              <text macro="place-publisher"/>
+            </group>
           </group>
         </else-if>
 
